@@ -1,7 +1,7 @@
 <?php
 require 'vendor/autoload.php';
 
-use controller\index;
+use controller\AnnonceController;
 use controller\item;
 use db\connection;
 use model\Annonce;
@@ -72,7 +72,7 @@ $cat = new CategorieService();
 $dpt = new DepartmentService();
 
 $app->get('/', function () use ($twig, $menu, $chemin, $cat) {
-    $index = new index();
+    $index = new AnnonceController();
     $index->displayAllAnnonce($twig, $menu, $chemin, $cat->getCategories());
 });
 
