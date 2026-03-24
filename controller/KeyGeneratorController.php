@@ -4,7 +4,7 @@ namespace controller;
 
 use service\ApiKeyService;
 
-class KeyGenerator {
+class KeyGeneratorController {
     private ApiKeyService $apiKeyService;
     public function __construct()
     {
