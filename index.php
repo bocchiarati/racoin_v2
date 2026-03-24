@@ -1,16 +1,14 @@
 <?php
 require 'vendor/autoload.php';
 
-use controller\getCategorie;
-use controller\getDepartment;
 use controller\index;
 use controller\item;
 use db\connection;
-
 use model\Annonce;
-use model\Categorie;
 use model\Annonceur;
+use model\Categorie;
 use model\Departement;
+use service\CategorieService;
 use service\DepartmentService;
 use Slim\App;
 use Slim\Http\Request;
@@ -70,8 +68,7 @@ $menu = [
 
 $chemin = dirname($_SERVER['SCRIPT_NAME']);
 
-$cat = new getCategorie();
-$dpt = new getDepartment();
+$cat = new CategorieService();
 $dpt = new DepartmentService();
 
 $app->get('/', function () use ($twig, $menu, $chemin, $cat) {
@@ -148,7 +145,7 @@ $app->post('/del/{n}', function ($request, $response, $arg) use ($twig, $menu, $
 
 $app->get('/cat/{n}', function ($request, $response, $arg) use ($twig, $menu, $chemin, $cat) {
     $n = $arg['n'];
-    $categorie = new controller\getCategorie();
+    $categorie = new controller\CategorieController();
     $categorie->displayCategorie($twig, $menu, $chemin, $cat->getCategories(), $n);
 });
 

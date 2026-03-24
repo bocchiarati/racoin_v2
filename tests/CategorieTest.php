@@ -3,8 +3,8 @@
 namespace tests;
 
 use PHPUnit\Framework\TestCase;
-use controller\getCategorie;
 use Mockery;
+use service\CategorieService;
 
 class CategorieTest extends TestCase
 {
@@ -43,9 +43,8 @@ class CategorieTest extends TestCase
                 ['id_categorie' => 2, 'nom_categorie' => 'Jeux Vidéo']
             ]);
 
-        // Appel du controller
-        $controller = new getCategorie();
-        $result = $controller->getCategories();
+        $service = new CategorieService();
+        $result = $service->getCategories();
 
         // Vérifications
         $this->assertIsArray($result);
