@@ -2,9 +2,15 @@
 
 namespace controller;
 
-use model\ApiKey;
+use service\ApiKeyService;
 
 class KeyGenerator {
+    private ApiKeyService $apiKeyService;
+    public function __construct()
+    {
+        $this->apiKeyService = new ApiKeyService();
+    }
+
 
     function show($twig, $menu, $chemin, $cat) {
         $template = $twig->load("key-generator.html.twig");
@@ -18,41 +24,22 @@ class KeyGenerator {
     }
 
     function generateKey($twig, $menu, $chemin, $cat, $nom) {
-        $nospace_nom = str_replace(' ', '', $nom);
+        $menu = array(
+            array('href' => $chemin,
+                'text' => 'Acceuil'),
+            array('href' => $chemin."/search",
+                'text' => "Recherche")
+        );
 
-        if($nospace_nom === '') {
+        if($this->apiKeyService->checkName($nom)) {
             $template = $twig->load("key-generator-error.html.twig");
-            $menu = array(
-                array('href' => $chemin,
-                    'text' => 'Acceuil'),
-                array('href' => $chemin."/search",
-                    'text' => "Recherche")
-            );
-
             echo $template->render(array("breadcrumb" => $menu, "chemin" => $chemin, "categories" => $cat));
-        } else {
-            $template = $twig->load("key-generator-result.html.twig");
-            $menu = array(
-                array('href' => $chemin,
-                    'text' => 'Acceuil'),
-                array('href' => $chemin."/search",
-                    'text' => "Recherche")
-            );
-
-            // Génere clé unique de 13 caractères
-            $key = uniqid();
-            // Ajouter clé dans la base
-            $apikey = new ApiKey();
-
-            $apikey->id_apikey = $key;
-            $apikey->name_key = htmlentities($nom);
-            $apikey->save();
-
-            echo $template->render(array("breadcrumb" => $menu, "chemin" => $chemin, "categories" => $cat, "key" => $key));
+            return;
         }
 
+        $template = $twig->load("key-generator-result.html.twig");
+        $key = $this->apiKeyService->generateKey($nom);
+        echo $template->render(array("breadcrumb" => $menu, "chemin" => $chemin, "categories" => $cat, "key" => $key));
     }
 
 }
-
-?>
