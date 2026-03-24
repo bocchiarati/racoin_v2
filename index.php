@@ -11,6 +11,7 @@ use model\Annonce;
 use model\Categorie;
 use model\Annonceur;
 use model\Departement;
+use service\DepartmentService;
 use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -71,6 +72,7 @@ $chemin = dirname($_SERVER['SCRIPT_NAME']);
 
 $cat = new getCategorie();
 $dpt = new getDepartment();
+$dpt = new DepartmentService();
 
 $app->get('/', function () use ($twig, $menu, $chemin, $cat) {
     $index = new index();
