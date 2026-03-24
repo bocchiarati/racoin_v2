@@ -12,11 +12,22 @@
             "controller":"",
             "model":"",
             "db":""
+        },
+        "psr-4": {
+            "tests\\": "tests/"
         }
     },
     "config": {
         "allow-plugins": {
             "kylekatarnls/update-helper": true
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5",
+        "mockery/mockery": "^1.6"
+    },
+
+    "scripts": {
+        "test": "phpunit tests"
     }
 }
