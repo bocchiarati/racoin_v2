@@ -28,4 +28,24 @@ class AnnonceService
         }
         return $annonce;
     }
+
+    public function getAnnonceurAnnonces($id, $chemin) {
+        $temp_annonces = annonce::where('id_annonceur','=',$id)->get();
+
+        $annonces = [];
+        foreach ($temp_annonces as $annonce) {
+            $annonce->nb_photo = Photo::where('id_annonce', '=', $annonce->id_annonce)->count();
+            if($annonce->nb_photo>0){
+                $annonce->url_photo = Photo::select('url_photo')
+                    ->where('id_annonce', '=', $annonce->id_annonce)
+                    ->first()->url_photo;
+            }else{
+                $annonce->url_photo = $chemin.'/img/noimg.png';
+            }
+
+            $annonces[] = $annonce;
+        }
+
+        return $annonces;
+    }
 }
