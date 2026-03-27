@@ -54,12 +54,12 @@ return function(App $app, $twig, $menu, $chemin, $cat, $dpt): App {
     });
 
     $app->get('/search', function (Request $request, Response $response) use ($twig, $menu, $chemin, $cat) {
-        (new controller\Search())->show($twig, $menu, $chemin, $cat->getCategories());
+        (new controller\SearchController())->show($twig, $menu, $chemin, $cat->getCategories());
         return $response;
     });
 
     $app->post('/search', function (Request $request, Response $response) use ($twig, $menu, $chemin, $cat) {
-        (new controller\Search())->research($request->getParsedBody(), $twig, $menu, $chemin, $cat->getCategories());
+        (new controller\SearchController())->research($request->getParsedBody(), $twig, $menu, $chemin, $cat->getCategories());
         return $response;
     });
 
